@@ -69,7 +69,14 @@
            // skip hidden files
            if ($file[0] == ".") continue;
 
-           if ($file== $thisScriptBase) continue;
+           if ($file == $thisScriptBase) continue;
+
+           // These are files used for heroku. don't display them
+           if ($file == "readme") continue;
+           if ($file == "vendor") continue;
+           if ($file == "Procfile") continue;
+           if ($file == "youtube-dl") continue;
+           if ($file == "composer.json") continue;
 
            $htmlRefFilename = "$thisDirWeb/$file";
 
@@ -133,7 +140,7 @@
 
             for ( $i = 0; $i < count($retval); ++$i )
             {
-               // drupal.org/project/drupal/issues/278425 
+               // drupal.org/project/drupal/issues/278425
                // "basename" function is no locale safe
                $fileBasename = basename($retval[$i]["name"]);
 
