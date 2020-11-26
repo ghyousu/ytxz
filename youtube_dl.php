@@ -15,12 +15,7 @@
             $selectedFileExt = $_POST['fileExt'];
             $outputDir = dirname( $THIS_SCRIPT );
 
-            $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 youtube-dl";
-
-            if ( get_current_user() == "ipj3ja1bmaxd")
-            {
-               $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 ~/bin/youtube-dl";
-            }
+            $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 python /app/youtube-dl";
 
             $shellcmd = $YTD_EXE . ' -c -o "' . $outputDir . '/%(title)s_%(id)s.%(ext)s" ' . $ytURL;
 
@@ -36,7 +31,7 @@
             {
                die("Unkown file extension: $selectedFileExt");
             }
-            
+
             if (strpos($ytURL, 'playlist') !== false)
             {
             	$shellcmd = $shellcmd . ' --playlist-start ' . $_POST['plstart'] . ' --playlist-end ' . $_POST['plstop'];
@@ -80,7 +75,7 @@
                   <input type="text" name="yturl" style="width: 400px; font-size: 0.5em" />
                </td>
             </tr>
-            
+
             <tr>
             	<td>Playlist Start</td>
             	<td align="right">
