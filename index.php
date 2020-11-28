@@ -111,10 +111,10 @@
       <table>
          <tr>
             <th valign="top"><img src="/icons/blank.gif" alt="[ICO]"></th>
+            <th><a href="?C=D;O=A">Delete File</a></th>
             <th><a href="?C=N;O=A">Name</a></th>
             <th><a href="?C=M;O=A">Last modified</a></th>
             <th><a href="?C=S;O=A">Size</a></th>
-            <th><a href="?C=D;O=A">Delete File</a></th>
          </tr>
 
          <tr><th colspan="5"><hr></th></tr>
@@ -148,21 +148,21 @@
 
                echo "<tr>\n";
                echo " <td></td>\n"; // skip icons
+               echo ' <td align="right">' . "\n";
+               echo '   <input type="checkbox" name="check_list[]" value="';
+               echo        "$documentRoot/" . $retval[$i]["name"] . '">' . "\n";
+               echo " </td>\n";
                echo " <td>\n";
                echo '   <a href="' . $retval[$i]["name"] . '">' . $fileBasename . "</a>\n";
                echo " </td>\n";
                echo ' <td align="right">' . date('Y-m-d h:i', $retval[$i]["lastmod"]) . "</td>\n";
                echo ' <td align="right">' . human_filesize($retval[$i]["size"]) . "</td>\n";
-               echo ' <td align="right">' . "\n";
-               echo '   <input type="checkbox" name="check_list[]" value="';
-               echo        "$documentRoot/" . $retval[$i]["name"] . '">' . "\n";
-               echo " </td>\n";
                echo "</tr>\n";
             }
          ?>
 
          <tr>
-            <td colspan="5" align="right">
+            <td colspan="2" align="right">
                   <input type="submit" name="submit" Value="Delete Selected"/>
             </td>
          </tr>
