@@ -19,7 +19,7 @@
       session_start();
 
       $thisScriptWeb   = $_SERVER["SCRIPT_NAME"];
-      $index_page      = $_SERVER['SERVER_NAME'] . '/' . 'index.php';
+      $index_page      = '/app/index.php';
 
       echo "debug: thisScriptWeb = $thisScriptWeb <br/>";
       echo "debug: index_page    = $index_page    <br/>";
