@@ -22,9 +22,9 @@
       $thisDirWeb      = dirname($thisScriptWeb);
       $index_page      = $thisDirWeb . '/' . 'index.php';
 
-      // echo "debug: thisScriptWeb = $thisScriptWeb <br/>";
-      // echo "debug: thisDirWeb    = $thisDirWeb    <br/>";
-      // echo "debug: index_page    = $index_page    <br/>";
+      echo "debug: thisScriptWeb = $thisScriptWeb <br/>";
+      echo "debug: thisDirWeb    = $thisDirWeb    <br/>";
+      echo "debug: index_page    = $index_page    <br/>";
 
       if (isset($_SESSION['LOGGED_IN']))
       {
