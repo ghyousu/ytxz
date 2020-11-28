@@ -2,6 +2,13 @@
   <head>
      <title>Directory Listing</title>
      <?php
+         session_start();
+
+         if (isset($_SESSION['LOGGED_IN']))
+         {
+            header("location: /login.php");
+         }
+
          function myExec($cmd)
          {
              $output = "NA_OUTPUT";
@@ -75,6 +82,7 @@
            if ($file == "readme") continue;
            if ($file == "vendor") continue;
            if ($file == "Procfile") continue;
+           if ($file == "login.php") continue;
            if ($file == "youtube-dl") continue;
            if ($file == "composer.json") continue;
 
