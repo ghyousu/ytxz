@@ -19,14 +19,11 @@
       session_start();
 
       $thisScriptWeb   = $_SERVER["SCRIPT_NAME"];
-      $thisDirWeb      = dirname($thisScriptWeb);
-      $index_page      = $thisDirWeb . '/' . 'index.php';
+      $index_page      = $_SERVER['SERVER_NAME'] . '/' . 'index.php';
 
       echo "debug: thisScriptWeb = $thisScriptWeb <br/>";
-      echo "debug: thisDirWeb    = $thisDirWeb    <br/>";
       echo "debug: index_page    = $index_page    <br/>";
-      var_dump( $_SERVER );
-
+      // var_dump( $_SERVER );
 
       if (isset($_SESSION['LOGGED_IN']))
       {
