@@ -25,6 +25,8 @@
       echo "debug: thisScriptWeb = $thisScriptWeb <br/>";
       echo "debug: thisDirWeb    = $thisDirWeb    <br/>";
       echo "debug: index_page    = $index_page    <br/>";
+      var_dump( $_SERVER );
+
 
       if (isset($_SESSION['LOGGED_IN']))
       {
