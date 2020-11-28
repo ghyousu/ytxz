@@ -4,7 +4,7 @@
      <?php
          session_start();
 
-         if (isset($_SESSION['LOGGED_IN']))
+         if (!isset($_SESSION['LOGGED_IN']))
          {
             header("location: /login.php");
          }
