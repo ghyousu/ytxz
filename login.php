@@ -19,10 +19,10 @@
       session_start();
 
       $thisScriptWeb   = $_SERVER["SCRIPT_NAME"];
-      $index_page      = '/app/index.php';
+      $index_page      = '/index.php';
 
-      echo "debug: thisScriptWeb = $thisScriptWeb <br/>";
-      echo "debug: index_page    = $index_page    <br/>";
+      // echo "debug: thisScriptWeb = $thisScriptWeb <br/>";
+      // echo "debug: index_page    = $index_page    <br/>";
       // var_dump( $_SERVER );
 
       if (isset($_SESSION['LOGGED_IN']))
