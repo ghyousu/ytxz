@@ -4,6 +4,40 @@
   <head>
      <title>Youtube Downloader</title>
      <?php
+         function getQualityFormatString($quality)
+         {
+            $qualityStr = "";
+
+            switch ($quality)
+            {
+               case "mp4":
+                  $qualityStr = ' -f mp4 ';
+                  break;
+               case "h144":
+                  $qualityStr = ' -f "bestvideo[height<=144]+bestaudio/best[height<=144]" ';
+                  break;
+               case "h240":
+                  $qualityStr = ' -f "bestvideo[height<=240]+bestaudio/best[height<=240]" ';
+                  break;
+               case "h360":
+                  $qualityStr = ' -f "bestvideo[height<=360]+bestaudio/best[height<=360]" ';
+                  break;
+               case "h480":
+                  $qualityStr = ' -f "bestvideo[height<=480]+bestaudio/best[height<=480]" ';
+                  break;
+               case "h720":
+                  $qualityStr = ' -f "bestvideo[height<=720]+bestaudio/best[height<=720]" ';
+                  break;
+               case "h1080":
+                  $qualityStr = ' -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" ';
+                  break;
+               case "default":
+                  break;
+            }
+
+            return $qualityStr;
+         }
+
          // if it's triggered by the "Download" button
          // echo print_r($_POST) . "<br/>";
          // echo print_r($_SERVER) . "<br/>";
@@ -13,11 +47,21 @@
          {
             $ytURL = $_POST['yturl'];
             $selectedFileExt = $_POST['fileExt'];
+            $selectedQuality = $_POST['video_quality'];
             $outputDir = dirname( $THIS_SCRIPT );
 
-            $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 python /app/youtube-dl";
+            $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 youtube-dl ";
 
-            $shellcmd = $YTD_EXE . ' -c -o "' . $outputDir . '/%(title)s_%(id)s.%(ext)s" ' . $ytURL;
+            ## for heroku app
+            if ( file_exists('/app/youtube-dl') )
+            {
+               $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 python /app/youtube-dl";
+            }
+
+            $qualityStr = getQualityFormatString($selectedQuality);
+
+            $shellcmd = $YTD_EXE . ' -c ' . $qualityStr . ' -o "' .
+                        $outputDir . '/%(title)s_%(id)s.%(ext)s" ' . $ytURL;
 
             if ($selectedFileExt == "audio")
             {
@@ -97,6 +141,24 @@
                   <select name="fileExt" style="font-size: 0.7em">
                      <option value="audio">Audio</option>
                      <option value="video">Video</option>
+                  </select>
+               </td>
+            </tr>
+
+            <tr>
+               <td>
+                  Video Quality:
+               </td>
+               <td align="right">
+                  <select name="video_quality" style="font-size: 0.7em">
+                     <option value="default">default</option>
+                     <option value="mp4">mp4</option>
+                     <option value="h144">Height <= 144</option>
+                     <option value="h240">Height <= 240</option>
+                     <option value="h360">Height <= 360</option>
+                     <option value="h480">Height <= 480</option>
+                     <option value="h720">Height <= 720</option>
+                     <option value="h1080">Height <= 1080</option>
                   </select>
                </td>
             </tr>
