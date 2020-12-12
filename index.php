@@ -4,7 +4,14 @@
      <?php
          session_start();
 
-         if (!isset($_SESSION['LOGGED_IN']))
+         if ($_SERVER['PHP_SELF'] == '/mason/index.php' ||
+             $_SERVER['PHP_SELF'] == '/kidsMusic/index.php' ||
+             $_SERVER['PHP_SELF'] == '/jplayer-2.9.2/index.php')
+         {
+            $require_login = true;
+         }
+
+         if ($require_login && (!isset($_SESSION['LOGGED_IN'])))
          {
             header("location: /login.php");
          }
@@ -83,8 +90,18 @@
            if ($file == "vendor") continue;
            if ($file == "Procfile") continue;
            if ($file == "login.php") continue;
+           if ($file == "m4aPlaylist.php") continue;
+           if ($file == "uploadFile.php") continue;
+           if ($file == "mason") continue;
            if ($file == "youtube-dl") continue;
            if ($file == "composer.json") continue;
+           if ($file == "jplayer-2.9.2") continue;
+           if ($file == "4c9184f37cff01bcdc32dc486ec36961") continue;
+
+           if ($file == "youtube_dl.php" && $thisScriptWeb == '/index.php')
+           {
+              continue;
+           }
 
            $htmlRefFilename = "$thisDirWeb/$file";
 
