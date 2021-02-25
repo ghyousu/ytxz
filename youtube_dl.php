@@ -10,6 +10,9 @@
 
             switch ($quality)
             {
+               case "mp3":
+                  $qualityStr = ' -x --audio-format mp3 ';
+                  break;
                case "mp4":
                   $qualityStr = ' -f mp4 ';
                   break;
@@ -69,7 +72,7 @@
             }
             else if ($selectedFileExt == "video")
             {
-               // do nothing
+              // do nothing
             }
             else
             {
@@ -152,6 +155,7 @@
                <td align="right">
                   <select name="video_quality" style="font-size: 0.7em">
                      <option value="default">default</option>
+                     <option value="mp3">mp3</option>
                      <option value="mp4">mp4</option>
                      <option value="h144">Height <= 144</option>
                      <option value="h240">Height <= 240</option>
