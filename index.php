@@ -90,9 +90,6 @@
            if ($file == "vendor") continue;
            if ($file == "Procfile") continue;
            if ($file == "login.php") continue;
-           if ($file == "m4aPlaylist.php") continue;
-           if ($file == "videoPlaylist.php") continue;
-           if ($file == "uploadFile.php") continue;
            if ($file == "mason") continue;
            if ($file == "youtube-dl") continue;
            if ($file == "composer.json") continue;
@@ -100,9 +97,12 @@
            if ($file == "4c9184f37cff01bcdc32dc486ec36961") continue;
            if ($file == "5c29c2e513aadfe372fd0af7553b5a6c") continue;
 
-           if ($file == "youtube_dl.php" && $thisScriptWeb == '/index.php')
+           if ($thisScriptWeb == '/index.php')
            {
-              continue;
+             if ($file == "youtube_dl.php") continue;
+             if ($file == "m4aPlaylist.php") continue;
+             if ($file == "videoPlaylist.php") continue;
+             if ($file == "uploadFile.php") continue;
            }
 
            $htmlRefFilename = "$thisDirWeb/$file";
