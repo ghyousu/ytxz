@@ -53,14 +53,14 @@
             $selectedQuality = $_POST['video_quality'];
             $outputDir = dirname( $THIS_SCRIPT );
 
-            if (isset($_GET('ext'))) // URL overrides
+            if (isset($_GET['ext'])) // URL overrides
             {
-               $selectedFileExt = $_GET('ext');
+               $selectedFileExt = $_GET['ext'];
             }
 
-            if (isset($_GET('quality'))) // URL overrides
+            if (isset($_GET['quality'])) // URL overrides
             {
-               $selectedQuality = $_GET('quality');
+               $selectedQuality = $_GET['quality'];
             }
 
             $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 youtube-dl ";
