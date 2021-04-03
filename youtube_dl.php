@@ -178,12 +178,12 @@
             </tr>
 
             <tr>
-                  <td align="right">
+                  <td align="left">
+                      <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>">One level Up</a>
+                  </td>
+                  <td colspan="2"  align="right">
                         <input type="submit" name="submit" Value="Download"
                            style="font-size: 0.7em"/>
-                  </td>
-                  <td colspan="2"  align="left">
-                      <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>">One level Up</a>
                   </td>
             </tr>
             </form>
