@@ -29,6 +29,7 @@ WORKDIR /var/www/localhost/htdocs
 
 EXPOSE 80
 
-# CMD [ "/usr/sbin/httpd", "-D", "BACKGROUND" ]
-CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
+CMD [ "/etc/init.d/httpd",  "configtest" ]
+
+# CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
 
