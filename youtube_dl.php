@@ -110,7 +110,8 @@
               $output = null;
               $retval = null;
               exec( $shellcmd, $output, $retval );
-              echo "retval = " . $retval . ". Output: <br/>" . $output;
+              echo "retval = " . $retval . ". Output: <br/>";
+              print_r($output);
               die("end of page");
             // }
             // else
