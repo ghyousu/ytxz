@@ -112,7 +112,7 @@
               exec( $shellcmd, $output, $retval );
               if (false == $retval)
               {
-                echo "Download failure. Output: <br/>" . $output;
+                die("Download failure. Output: <br/>" . $output);
               }
             }
             else
