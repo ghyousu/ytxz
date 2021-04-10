@@ -107,8 +107,13 @@
             //       options that messes up with the download
             if ($debug)
             {
-              exec( $shellcmd );
-              die("end of debug");
+              $output = null;
+              $retval = null;
+              exec( $shellcmd, $output, $retval );
+              if (false == $retval)
+              {
+                echo "Download failure. Output: <br/>" . $output;
+              }
             }
             else
             {
