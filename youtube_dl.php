@@ -108,6 +108,7 @@
             if ($debug)
             {
               exec( $shellcmd );
+              die("end of debug");
             }
             else
             {
