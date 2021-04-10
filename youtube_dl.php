@@ -105,20 +105,20 @@
 
             // note: the escapedshellcmd adds bad character in "youtube-dl"
             //       options that messes up with the download
-            // if ($debug)
-            // {
+            if ($debug)
+            {
               $output = null;
               $retval = null;
-              exec( $shellcmd, $output, $retval );
+              exec( $shellcmd . ' 2>1', $output, $retval );
               echo "retval = " . $retval . ". Output: <br/>";
-              print_r($output);
-              die("end of page");
-            // }
-            // else
-            // {
-            //   exec( $shellcmd . ' > /dev/null &');
-            //   echo "Download started, check back again later <br/>";
-            // }
+              print_r($Output);
+              die("<br/>end of page");
+            }
+            else
+            {
+              exec( $shellcmd . ' &');
+              echo "Download started, check back again later <br/>";
+            }
             /* download everything in the bg for all machines
             if ( get_current_user() != "ipj3ja1bmaxd" )
             {
