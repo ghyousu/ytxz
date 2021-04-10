@@ -106,7 +106,7 @@
             	$shellcmd = $shellcmd . ' --playlist-start ' . $_POST['plstart'] . ' --playlist-end ' . $_POST['plstop'];
             }
 
-            // die("myou: debug: shellcmd = '" . $shellcmd . "'<br/>");
+            die("myou: debug: shellcmd = '" . $shellcmd . "'<br/>");
 
             // note: the escapedshellcmd adds bad character in "youtube-dl"
             //       options that messes up with the download
@@ -172,7 +172,7 @@
             <tr>
             	<td>Output name:</td>
             	<td align="right">
-                  <input type="text" value="%(title)s_%(id)s.%(ext)s" name="output_name:" style="width: 400px; font-size: 0.5em" />
+                  <input type="text" value="Optional output filename" name="output_name:" style="width: 400px; font-size: 0.5em" />
               </td>
             </tr>
 
