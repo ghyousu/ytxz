@@ -50,24 +50,29 @@
          {
             $debug = false;
             $output_filename = '%(title)s_%(id)s.%(ext)s';
-            $ytURL = $_POST['yturl'];
+            $ytURL           = $_POST['yturl'];
             $selectedFileExt = $_POST['fileExt'];
             $selectedQuality = $_POST['video_quality'];
             $outputDir = dirname( $THIS_SCRIPT );
 
-            if (isset($_GET['ext'])) // URL overrides
+            if (isset($_GET['ext'])) // ext overrides
             {
                $selectedFileExt = $_GET['ext'];
             }
 
-            if (isset($_GET['quality'])) // URL overrides
+            if (isset($_GET['quality'])) // quality overrides
             {
                $selectedQuality = $_GET['quality'];
             }
 
-            if (isset($_GET['debug'])) // URL overrides
+            if (isset($_GET['debug'])) // debug
             {
                $debug = true;
+            }
+
+            if (isset($_POST['output_name'])) // output filename overrides
+            {
+               $output_filename = $_POST['output_filename'] . '_%(id)s.%(ext)s';
             }
 
             $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 youtube-dl ";
@@ -110,7 +115,6 @@
               $output = null;
               $retval = null;
               exec( $shellcmd . ' 2>&1', $output, $retval );
-              # exec( $shellcmd, $output, $retval );
               echo "<br/>retval = " . $retval . ". output: <br/>";
               print_r($output);
               die("<br/>end of page");
@@ -154,16 +158,22 @@
             </tr>
 
             <tr>
-            	<td>Playlist Start</td>
+            	<td>Playlist Start:</td>
             	<td align="right">
                   <input type="text" value="1" name="plstart" style="width: 400px; font-size: 0.5em" />
-               </td>
+              </td>
             </tr>
             <tr>
-            	<td>Playlist Stop</td>
+            	<td>Playlist Stop:</td>
             	<td align="right">
                   <input type="text" value="100" name="plstop" style="width: 400px; font-size: 0.5em" />
-               </td>
+              </td>
+            </tr>
+            <tr>
+            	<td>Output name:</td>
+            	<td align="right">
+                  <input type="text" value="%(title)s_%(id)s.%(ext)s" name="output_name:" style="width: 400px; font-size: 0.5em" />
+              </td>
             </tr>
 
             <tr>
