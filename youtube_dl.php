@@ -72,7 +72,6 @@
 
             if ($_POST['output_name'] != "") // output filename overrides
             {
-               echo "<br/>Using output name override" . $_POST['output_name'];
                $output_filename = $_POST['output_filename'] . '_%(id)s.%(ext)s';
             }
 
@@ -171,9 +170,9 @@
               </td>
             </tr>
             <tr>
-            	<td>Optional Output name:</td>
+            	<td>Output name:</td>
             	<td align="right">
-                  <input type="text" value="" name="output_name:" style="width: 400px; font-size: 0.5em" />
+                  <input type="text" value="" name="output_name" style="width: 400px; font-size: 0.5em" />
               </td>
             </tr>
 
