@@ -121,7 +121,7 @@
             }
             else
             {
-              exec( $shellcmd . ' &');
+              exec($shellcmd . ' > /dev/null &');
               echo "Download started, check back again later <br/>";
             }
             /* download everything in the bg for all machines
