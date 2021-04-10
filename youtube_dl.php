@@ -72,7 +72,7 @@
 
             if ($_POST['output_name'] != "") // output filename overrides
             {
-               $output_filename = $_POST['output_filename'] . '_%(id)s.%(ext)s';
+               $output_filename = $_POST['output_name'] . '_%(id)s.%(ext)s';
             }
 
             $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 youtube-dl ";
