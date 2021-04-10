@@ -111,7 +111,7 @@
               $retval = null;
               exec( $shellcmd, $output, $retval );
               echo "retval = " . $retval . ". Output: <br/>" . $output;
-              die("end of page")
+              die("end of page");
             // }
             // else
             // {
