@@ -48,6 +48,8 @@
 
          if ( isset($_POST['submit']) )
          {
+            $debug = false
+            $output_filename = '%(title)s_%(id)s.%(ext)s';
             $ytURL = $_POST['yturl'];
             $selectedFileExt = $_POST['fileExt'];
             $selectedQuality = $_POST['video_quality'];
@@ -63,6 +65,11 @@
                $selectedQuality = $_GET['quality'];
             }
 
+            if (isset($_GET['debug'])) // URL overrides
+            {
+               $debug = true;
+            }
+
             $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 youtube-dl ";
 
             ## for heroku app
@@ -74,7 +81,7 @@
             $qualityStr = getQualityFormatString($selectedQuality);
 
             $shellcmd = $YTD_EXE . ' -c ' . $qualityStr . ' -o "' .
-                        $outputDir . '/%(title)s_%(id)s.%(ext)s" ' . $ytURL;
+                        $outputDir . '/' . $output_filename . '" ' . $ytURL;
 
             if ($selectedFileExt == "audio")
             {
@@ -98,8 +105,15 @@
 
             // note: the escapedshellcmd adds bad character in "youtube-dl"
             //       options that messes up with the download
-            exec( $shellcmd . ' > /dev/null &');
-            echo "Download started, check back again later <br/>";
+            if ($debug)
+            {
+              exec( $shellcmd );
+            }
+            else
+            {
+              exec( $shellcmd . ' > /dev/null &');
+              echo "Download started, check back again later <br/>";
+            }
             /* download everything in the bg for all machines
             if ( get_current_user() != "ipj3ja1bmaxd" )
             {
