@@ -48,7 +48,7 @@
 
          if ( isset($_POST['submit']) )
          {
-            $debug = false
+            $debug = false;
             $output_filename = '%(title)s_%(id)s.%(ext)s';
             $ytURL = $_POST['yturl'];
             $selectedFileExt = $_POST['fileExt'];
