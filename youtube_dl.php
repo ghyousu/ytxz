@@ -106,7 +106,7 @@
             	$shellcmd = $shellcmd . ' --playlist-start ' . $_POST['plstart'] . ' --playlist-end ' . $_POST['plstop'];
             }
 
-            die("myou: debug: shellcmd = '" . $shellcmd . "'<br/>");
+            // die("myou: debug: shellcmd = '" . $shellcmd . "'<br/>");
 
             // note: the escapedshellcmd adds bad character in "youtube-dl"
             //       options that messes up with the download
