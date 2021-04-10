@@ -109,7 +109,12 @@
             {
               $output = null;
               $retval = null;
-              exec( $shellcmd . ' 2>1', $output, $retval );
+              exec( "echo $SHELL", $output);
+              echo "SHELL = ";
+              print_r($output);
+
+              $output = null;
+              exec( $shellcmd . ' 2>&1', $output, $retval );
               echo "retval = " . $retval . ". Output: <br/>";
               print_r($Output);
               die("<br/>end of page");
