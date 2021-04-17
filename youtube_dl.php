@@ -48,7 +48,7 @@
 
          if ( isset($_POST['submit']) )
          {
-            $debug = false;
+            $debug = $_POST['debug'];
             $output_filename = '%(title)s_%(id)s.%(ext)s';
             $ytURL           = $_POST['yturl'];
             $selectedFileExt = $_POST['fileExt'];
@@ -211,8 +211,11 @@
                   <td align="left">
                       <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>">One level Up</a>
                   </td>
-                  <td colspan="2"  align="right">
-                        <input type="submit" name="submit" Value="Download"
+                  <td align="left">
+                      <input type="checkbox" name="debug" value="Debug" />
+                  </td>
+                  <td align="right">
+                      <input type="submit" name="submit" Value="Download"
                            style="font-size: 0.7em"/>
                   </td>
             </tr>
