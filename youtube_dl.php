@@ -211,12 +211,12 @@
                   <td align="left">
                       <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>">One level Up</a>
                   </td>
-                  <td align="left">
-                      <input type="checkbox" name="debug" value="Debug" />
-                  </td>
                   <td align="right">
                       <input type="submit" name="submit" Value="Download"
                            style="font-size: 0.7em"/>
+                  </td>
+                  <td align="left">
+                      <input type="checkbox" name="debug" value="Debug" />
                   </td>
             </tr>
             </form>
