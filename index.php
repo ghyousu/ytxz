@@ -101,6 +101,7 @@
            {
              if ($file == "youtube_dl.php") continue;
              if ($file == "m4aPlaylist.php") continue;
+             if ($file == "mp3Playlist.php") continue;
              if ($file == "videoPlaylist.php") continue;
              if ($file == "uploadFile.php") continue;
            }
