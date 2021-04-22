@@ -189,6 +189,8 @@
                return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
             }
 
+            $TOTAL_SIZE = 0;
+
             for ( $i = 0; $i < count($retval); ++$i )
             {
                // drupal.org/project/drupal/issues/278425
@@ -196,6 +198,8 @@
                $fileBasename = basename($retval[$i]["name"]);
 
                preg_replace(".*/", "", $fileBasename);
+
+               $TOTAL_SIZE += $retval[$i]["size"];
 
                echo "<tr>\n";
                echo " <td></td>\n"; // skip icons
@@ -213,16 +217,22 @@
          ?>
 
          <tr>
-            <td align="right">
+            <td align="left">
                   <input type="submit" name="submit" Value="Delete Selected"/>
             </td>
-            <td align="right">
+            <td align="left">
                   <input type="submit" name="selectAll" Value="Select All"
                      onclick='selectAllClicked(event)'/>
             </td>
-            <td align="right">
+            <td align="left">
                   <input type="submit" name="unselectAll" Value="UnSelect All"
                      onclick='unselectAllClicked(event)'/>
+            </td>
+            <td align="right">
+                  Total:
+            </td>
+            <td align="right">
+                  <?php echo human_filesize($TOTAL_SIZE) ?>
             </td>
          </tr>
          </form>
