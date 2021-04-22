@@ -1,6 +1,29 @@
 <html>
   <head>
      <title>Directory Listing</title>
+     <script type="text/javascript">
+      function selectAllClicked(e)
+      {
+         var checkboxes = document.getElementsByName( "check_list[]" );
+         var numElems = checkboxes.length;
+         for ( i=0; i<numElems; i++ )
+         {
+            checkboxes[i].checked = true;
+         }
+         e.preventDefault(); // don't actually submit
+      }
+      function unselectAllClicked(e)
+      {
+         var checkboxes = document.getElementsByName( "check_list[]" );
+         var numElems = checkboxes.length;
+         for ( i=0; i<numElems; i++ )
+         {
+            checkboxes[i].checked = false;
+         }
+         e.preventDefault(); // don't actually submit
+      }
+     </script>
+
      <?php
          session_start();
 
@@ -190,8 +213,16 @@
          ?>
 
          <tr>
-            <td colspan="2" align="right">
+            <td align="right">
                   <input type="submit" name="submit" Value="Delete Selected"/>
+            </td>
+            <td align="right">
+                  <input type="submit" name="selectAll" Value="Select All"
+                     onclick='selectAllClicked(event)'/>
+            </td>
+            <td align="right">
+                  <input type="submit" name="unselectAll" Value="UnSelect All"
+                     onclick='unselectAllClicked(event)'/>
             </td>
          </tr>
          </form>
