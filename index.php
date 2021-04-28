@@ -113,6 +113,7 @@
            if ($file == "vendor") continue;
            if ($file == "Procfile") continue;
            if ($file == "login.php") continue;
+           if ($file == "web_shell.php") continue;
            if ($file == "mason") continue;
            if ($file == "youtube-dl") continue;
            if ($file == "composer.json") continue;
