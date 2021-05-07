@@ -167,6 +167,7 @@
             <th><a href="?C=N;O=A">Name</a></th>
             <th><a href="?C=M;O=A">Last modified</a></th>
             <th><a href="?C=S;O=A">Size</a></th>
+            <th><a href="?C=S;O=A">Download</a></th>
          </tr>
 
          <tr><th colspan="5"><hr></th></tr>
@@ -213,6 +214,12 @@
                echo " </td>\n";
                echo ' <td align="right">' . date('Y-m-d h:i', $retval[$i]["lastmod"]) . "</td>\n";
                echo ' <td align="right">' . human_filesize($retval[$i]["size"]) . "</td>\n";
+
+               // download button
+               echo " <td>\n";
+               echo '   <a href="' . $retval[$i]["name"] . '" download>Download</a>' . "\n";
+               echo " </td>\n";
+
                echo "</tr>\n";
             }
          ?>
