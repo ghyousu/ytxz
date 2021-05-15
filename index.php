@@ -141,7 +141,7 @@
            {
               $retval[] = array(
                     "name" => $htmlRefFilename,
-                    // "type" => filetype("$thisDirLinux/$file"),
+                    "type" => filetype("$thisDirLinux/$file"),
                     "size" => 0,
                     "lastmod" => filemtime("$thisDirLinux/$file")
                     );
@@ -150,7 +150,7 @@
            {
               $retval[] = array(
                     "name" => $htmlRefFilename,
-                    // "type" => mime_content_type("$thisDirLinux/$file"),
+                    "type" => mime_content_type("$thisDirLinux/$file"),
                     "size" => filesize("$thisDirLinux/$file"),
                     "lastmod" => filemtime("$thisDirLinux/$file")
                     );
@@ -167,10 +167,9 @@
             <th><a href="?C=N;O=A">Name</a></th>
             <th><a href="?C=M;O=A">Last modified</a></th>
             <th><a href="?C=S;O=A">Size</a></th>
-            <th><a href="?C=S;O=A">Download</a></th>
          </tr>
 
-         <tr><th colspan="5"><hr></th></tr>
+         <tr><td colspan="10"><hr></td></tr>
 
          <tr>
             <td valign="top"><img src="/icons/back.gif" alt="[PARENTDIR]"></td>
@@ -195,34 +194,43 @@
 
             for ( $i = 0; $i < count($retval); ++$i )
             {
+               $filename = $retval[$i]["name"];
+
                // drupal.org/project/drupal/issues/278425
                // "basename" function is no locale safe
-               $fileBasename = basename($retval[$i]["name"]);
+               $fileBasename = basename($filename);
 
                preg_replace(".*/", "", $fileBasename);
 
                $TOTAL_SIZE += $retval[$i]["size"];
 
                echo "<tr>\n";
-               echo " <td></td>\n"; // skip icons
+
                echo ' <td align="right">' . "\n";
                echo '   <input type="checkbox" name="check_list[]" value="';
-               echo        "$documentRoot/" . $retval[$i]["name"] . '">' . "\n";
+               echo        "$documentRoot/$filename" . '">' . "\n";
                echo " </td>\n";
+
+               // download button for files
+               echo " <td align='center'>\n";
+               if ($retval[$i]["type"] != "dir")
+               {
+                  echo "   <a href='$filename' download>Download</a>\n";
+               }
+               echo " </td>\n";
+
                echo " <td>\n";
-               echo '   <a href="' . $retval[$i]["name"] . '">' . $fileBasename . "</a>\n";
+               echo '   <a href="' . $filename . '">' . $fileBasename . "</a>\n";
                echo " </td>\n";
+
                echo ' <td align="right">' . date('Y-m-d h:i', $retval[$i]["lastmod"]) . "</td>\n";
                echo ' <td align="right">' . human_filesize($retval[$i]["size"]) . "</td>\n";
-
-               // download button
-               echo " <td>\n";
-               echo '   <a href="' . $retval[$i]["name"] . '" download>Download</a>' . "\n";
-               echo " </td>\n";
 
                echo "</tr>\n";
             }
          ?>
+
+         <tr><td colspan="10"><hr></td></tr>
 
          <tr>
             <td align="left">
@@ -245,7 +253,7 @@
          </tr>
          </form>
 
-         <tr><th colspan="5"><hr></th></tr>
+         <tr><td colspan="10"><hr></td></tr>
       </table>
 
       <address>Mason's custom directory listing</address>
