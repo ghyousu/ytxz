@@ -3,6 +3,33 @@
 <html>
   <head>
      <title>Youtube Downloader</title>
+     <script type="text/javascript">
+     function plStartChanged(e) // update plstop to match plstart
+     {
+        var plStartVal = parseInt(document.getElementsByName("plstart")[0].value);
+        var plStopVal  = parseInt(document.getElementsByName("plstop")[0].value);
+
+        if (plStartVal > plStopVal)
+        {
+           console.log("debug: changing stop from " + plStopVal + " to " + plStartVal);
+           document.getElementsByName("plstop")[0].value = plStartVal;
+        }
+     }
+
+     function fileTypeChanged(value) // if file type changed to video, default to mp4 in quality list
+     {
+        var selected_ft = document.getElementsByName("fileExt")[0].innerHTML;
+
+        if (value == "video")
+        {
+           document.getElementById("video_quality").selectedIndex = 2; // mp4
+        }
+        else
+        {
+           document.getElementById("video_quality").selectedIndex = 0;
+        }
+     }
+     </script>
      <?php
          function getQualityFormatString($quality)
          {
@@ -160,7 +187,7 @@
             <tr>
             	<td>Playlist Start:</td>
             	<td align="right">
-                  <input type="text" value="1" name="plstart" style="width: 400px; font-size: 0.5em" />
+                  <input type="text" value="1" name="plstart" onchange="plStartChanged(event)" style="width: 400px; font-size: 0.5em" />
               </td>
             </tr>
             <tr>
@@ -181,7 +208,7 @@
                   File Format:
                </td>
                <td align="right">
-                  <select name="fileExt" style="font-size: 0.7em">
+                  <select name="fileExt" onchange="fileTypeChanged(this.value)" style="font-size: 0.7em">
                      <option value="audio">Audio</option>
                      <option value="video">Video</option>
                   </select>
@@ -193,7 +220,7 @@
                   Video Quality:
                </td>
                <td align="right">
-                  <select name="video_quality" style="font-size: 0.7em">
+                  <select id="video_quality" name="video_quality" style="font-size: 0.7em">
                      <option value="default">default</option>
                      <option value="mp3">mp3</option>
                      <option value="mp4">mp4</option>
