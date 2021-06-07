@@ -25,6 +25,8 @@
      </script>
 
      <?php
+         setlocale(LC_ALL,'C.UTF-8');
+
          session_start();
 
          if ($_SERVER['PHP_SELF'] == '/mason/index.php' ||
@@ -164,9 +166,9 @@
          <tr>
             <th valign="top"><img src="/icons/blank.gif" alt="[ICO]"></th>
             <th><a href="?C=D;O=A">Delete File</a></th>
+            <th><a href="?C=S;O=A">Size</a></th>
             <th><a href="?C=N;O=A">Name</a></th>
             <th><a href="?C=M;O=A">Last modified</a></th>
-            <th><a href="?C=S;O=A">Size</a></th>
          </tr>
 
          <tr><td colspan="10"><hr></td></tr>
@@ -200,8 +202,6 @@
                // "basename" function is no locale safe
                $fileBasename = basename($filename);
 
-               preg_replace(".*/", "", $fileBasename);
-
                $TOTAL_SIZE += $retval[$i]["size"];
 
                echo "<tr>\n";
@@ -219,12 +219,13 @@
                }
                echo " </td>\n";
 
+               echo ' <td align="right">' . human_filesize($retval[$i]["size"]) . "</td>\n";
+
                echo " <td>\n";
                echo '   <a href="' . $filename . '">' . $fileBasename . "</a>\n";
                echo " </td>\n";
 
                echo ' <td align="right">' . date('Y-m-d h:i', $retval[$i]["lastmod"]) . "</td>\n";
-               echo ' <td align="right">' . human_filesize($retval[$i]["size"]) . "</td>\n";
 
                echo "</tr>\n";
             }
@@ -233,7 +234,7 @@
          <tr><td colspan="10"><hr></td></tr>
 
          <tr>
-            <td align="left">
+            <td align="left" colspan="2">
                   <input type="submit" name="submit" Value="Delete Selected"/>
             </td>
             <td align="left">
