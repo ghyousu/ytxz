@@ -11,4 +11,4 @@ new_ver=$(python youtube-dl --version)
 
 git ci youtube-dl -m "updated youtube-dl from $old_ver to $new_ver"
 
-git push
+# git push
