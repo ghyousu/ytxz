@@ -8,7 +8,10 @@
          var numElems = checkboxes.length;
          for ( i=0; i<numElems; i++ )
          {
-            checkboxes[i].checked = true;
+            if (checkboxes[i].value.split('.').pop() != "php")
+            {
+              checkboxes[i].checked = true;
+            }
          }
          e.preventDefault(); // don't actually submit
       }
