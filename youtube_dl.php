@@ -4,31 +4,92 @@
   <head>
      <title>Youtube Downloader</title>
      <script type="text/javascript">
-     function plStartChanged(e) // update plstop to match plstart
-     {
-        var plStartVal = parseInt(document.getElementsByName("plstart")[0].value);
-        var plStopVal  = parseInt(document.getElementsByName("plstop")[0].value);
+       function updateDropDownBasedOnURL()
+       {
+          const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
 
-        if (plStartVal > plStopVal)
-        {
-           console.log("debug: changing stop from " + plStopVal + " to " + plStartVal);
-           document.getElementsByName("plstop")[0].value = plStartVal;
-        }
-     }
+          if (urlParams.has('fileExt'))
+          {
+             const url_file_ext = urlParams.get('fileExt');
 
-     function fileTypeChanged(value) // if file type changed to video, default to mp4 in quality list
-     {
-        var selected_ft = document.getElementsByName("fileExt")[0].innerHTML;
+             console.log("debug: fileExt = " + url_file_ext);
 
-        if (value == "video")
-        {
-           document.getElementById("video_quality").selectedIndex = 2; // mp4
-        }
-        else
-        {
-           document.getElementById("video_quality").selectedIndex = 0;
-        }
-     }
+             if (url_file_ext == "video") // default to audio
+             {
+                document.getElementById("ft_list").selectedIndex = 1; // mp4
+             }
+
+             fileTypeChanged(url_file_ext);
+          }
+
+          if (urlParams.has('video_quality'))
+          {
+             const quality = urlParams.get('video_quality');
+
+             console.log("debug: video_quality = " + quality)
+
+             switch (quality)
+             {
+               case "default":
+                  document.getElementById("video_quality").selectedIndex = 0;
+                  break;
+               case "mp3":
+                  document.getElementById("video_quality").selectedIndex = 1;
+                  break;
+               case "mp4":
+                  document.getElementById("video_quality").selectedIndex = 2;
+                  break;
+               case "h144":
+                  document.getElementById("video_quality").selectedIndex = 3;
+                  break;
+               case "h240":
+                  document.getElementById("video_quality").selectedIndex = 4;
+                  break;
+               case "h360":
+                  document.getElementById("video_quality").selectedIndex = 5;
+                  break;
+               case "h480":
+                  document.getElementById("video_quality").selectedIndex = 6;
+                  break;
+               case "h720":
+                  document.getElementById("video_quality").selectedIndex = 7;
+                  break;
+               case "h1080":
+                  document.getElementById("video_quality").selectedIndex = 8;
+                  break;
+               default:
+                  document.getElementById("video_quality").selectedIndex = 0;
+                  break;
+             }
+          }
+       }
+
+       function plStartChanged(e) // update plstop to match plstart
+       {
+          var plStartVal = parseInt(document.getElementsByName("plstart")[0].value);
+          var plStopVal  = parseInt(document.getElementsByName("plstop")[0].value);
+
+          if (plStartVal > plStopVal)
+          {
+             console.log("debug: changing stop from " + plStopVal + " to " + plStartVal);
+             document.getElementsByName("plstop")[0].value = plStartVal;
+          }
+       }
+
+       function fileTypeChanged(value) // if file type changed to video, default to mp4 in quality list
+       {
+          var selected_ft = document.getElementsByName("fileExt")[0].innerHTML;
+
+          if (value == "video")
+          {
+             document.getElementById("video_quality").selectedIndex = 2; // mp4
+          }
+          else
+          {
+             document.getElementById("video_quality").selectedIndex = 0;
+          }
+       }
      </script>
      <?php
          function getQualityFormatString($quality)
@@ -82,15 +143,15 @@
             $selectedQuality = $_POST['video_quality'];
             $outputDir = dirname( $THIS_SCRIPT );
 
-            if (isset($_GET['ext'])) // ext overrides
-            {
-               $selectedFileExt = $_GET['ext'];
-            }
-
-            if (isset($_GET['quality'])) // quality overrides
-            {
-               $selectedQuality = $_GET['quality'];
-            }
+//            if (isset($_GET['ext'])) // ext overrides
+//            {
+//               $selectedFileExt = $_GET['ext'];
+//            }
+//
+//            if (isset($_GET['quality'])) // quality overrides
+//            {
+//               $selectedQuality = $_GET['quality'];
+//            }
 
             if (isset($_GET['debug'])) // debug
             {
@@ -107,7 +168,7 @@
             ## for heroku app
             if ( file_exists('/app/youtube-dl') )
             {
-               $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 python /app/youtube-dl";
+               $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 python /app/youtube-dl ";
             }
 
             $qualityStr = getQualityFormatString($selectedQuality);
@@ -171,7 +232,7 @@
      ?>
   </head>
 
-  <body>
+  <body onload="updateDropDownBasedOnURL()">
       <div align="center">
          <table style="font-size: 3em; border-spacing: 0.4em;">
             <form action="<?php echo $_SERVER["REQUEST_URI"] ?>" method="POST">
@@ -208,7 +269,7 @@
                   File Format:
                </td>
                <td align="right">
-                  <select name="fileExt" onchange="fileTypeChanged(this.value)" style="font-size: 0.7em">
+                  <select id="ft_list" name="fileExt" onchange="fileTypeChanged(this.value)" style="font-size: 0.7em">
                      <option value="audio">Audio</option>
                      <option value="video">Video</option>
                   </select>
