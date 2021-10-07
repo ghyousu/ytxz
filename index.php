@@ -15,6 +15,7 @@
          }
          e.preventDefault(); // don't actually submit
       }
+
       function unselectAllClicked(e)
       {
          var checkboxes = document.getElementsByName( "check_list[]" );
@@ -25,6 +26,56 @@
          }
          e.preventDefault(); // don't actually submit
       }
+
+      function rename_selected(e)
+      {
+         var from_str = document.getElementById("from_re").value;
+         var to_str   = document.getElementById("to_re").value;
+
+         if (from_str == "")
+         {
+            alert("You need to specify the 'From' text box");
+            e.preventDefault(); // don't actually submit
+            return ;
+         }
+
+         if (to_str == "")
+         {
+            alert("You need to specify the 'To' text box");
+            e.preventDefault(); // don't actually submit
+            return ;
+         }
+
+         if (from_str == to_str)
+         {
+            alert("'From' and 'To' are the same, do nothing");
+            e.preventDefault(); // don't actually submit
+            document.getElementById("to_re").value = "CHANGE_ME";
+            return ;
+         }
+
+         // verify there's at least one file checked
+         var checkboxes = document.getElementsByName( "check_list[]" );
+         var numElems = checkboxes.length;
+         var has_file_selected = false;
+         for ( i=0; i<numElems; i++ )
+         {
+            if (checkboxes[i].checked)
+            {
+                has_file_selected = true;
+                break;
+            }
+         }
+
+         if (!has_file_selected)
+         {
+            alert("No files are selected. Select some files to be renamed");
+            e.preventDefault(); // don't actually submit
+         }
+
+         console.log("Renaming files from '" + from_str + "' to '" + to_str + "'");
+      }
+
      </script>
 
      <?php
@@ -44,38 +95,74 @@
             header("location: /login.php");
          }
 
-         function myExec($cmd)
+         function myExec($cmd, $is_debug)
          {
              $output = "NA_OUTPUT";
              $ret_err_code = "-12345";
 
              $lastLineOutput = exec($cmd, $output, $ret_err_code);
 
-             // for debugging: echo "Cmd: $cmd<br/>";
-             // for debugging: echo "Output: $outpu<br/>";
-             // for debugging: echo "ret_err_code: $ret_err_code<br/>";
-             // for debugging: echo "lastLineOutput: $lastLineOutput<br/>";
+             if ($is_debug)
+             {
+                echo "Cmd: $cmd<br/>";
+                echo "Output: $outpu<br/>";
+                echo "ret_err_code: $ret_err_code<br/>";
+                echo "lastLineOutput: $lastLineOutput<br/>";
+             }
          }
 
          // if it's triggered by the "Delete Selected" button, perform
          // file deletion and return to the same page
          // echo print_r($_POST) . "<br/>";
 
-         if ( isset($_POST['check_list']) )
+         if ($_SERVER['REQUEST_METHOD'] === 'POST')
          {
-            $selectedArray = $_POST['check_list'];
-            $numSelected   = count( $selectedArray );
-
-            for ($i=0; $i<$numSelected; $i++)
+            $action = "DELETE";
+            if (isset($_POST['rename_selected_files']))
             {
-               $tbdFile = $selectedArray[$i];
-               myExec( "rm -fv \"$tbdFile\" " );
+               $action = "RENAME";
             }
 
-            // if (isset($_SERVER["HTTP_REFERER"]))
-            // {
-            //    header("Location: " . $_SERVER["HTTP_REFERER"]);
-            // }
+            if ( isset($_POST['check_list']) )
+            {
+               $selectedArray = $_POST['check_list'];
+               $numSelected   = count( $selectedArray );
+
+               $files_to_be_renamed = "";
+               for ($i=0; $i<$numSelected; $i++)
+               {
+                  $tbdFile = $selectedArray[$i];
+
+                  if ($action == "DELETE")
+                  {
+                     myExec( "rm -fv \"$tbdFile\" ", false);
+                  }
+                  else if ($action == "RENAME")
+                  {
+                     $files_to_be_renamed .= " " . basename($tbdFile);
+                  }
+               }
+
+               if ($action == "RENAME")
+               {
+                   $from_str = $_POST["from_re"];
+                   $to_str = $_POST["to_re"];
+                   $file_dir = dirname($selectedArray[0]);
+
+                   $is_dry_run = (count($_POST['rename_dry_run']) > 0);
+                   $dry_run_opt = "";
+                   if ($is_dry_run)
+                   {
+                      $dry_run_opt = "-n";
+                   }
+
+                   myExec( "cd $file_dir && rename -v 's/$from_str/$to_str/' \"$files_to_be_renamed\" $dry_run_opt ", $is_dry_run );
+                }
+               // if (isset($_SERVER["HTTP_REFERER"]))
+               // {
+               //    header("Location: " . $_SERVER["HTTP_REFERER"]);
+               // }
+            }
          }
      ?>
   </head>
@@ -254,6 +341,27 @@
             </td>
             <td align="right">
                   <?php echo human_filesize($TOTAL_SIZE) ?>
+            </td>
+         </tr>
+
+         <tr>
+            <td>From: </td>
+            <td align="right">
+                <input type="text" id="from_re" name="from_re" />
+            </td>
+
+            <td align="right">To: </td>
+            <td align="left">
+                <input type="text" id="to_re" name="to_re" />
+            </td>
+
+            <td align="left">
+                  <input type="submit" name="rename_selected_files" Value="Rename"
+                     onclick='rename_selected(event)'/>
+            </td>
+
+            <td align="left">
+                 <input type="checkbox" name="rename_dry_run[]" value="Dry Run" />
             </td>
          </tr>
          </form>
