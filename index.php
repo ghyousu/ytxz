@@ -128,7 +128,18 @@
                $selectedArray = $_POST['check_list'];
                $numSelected   = count( $selectedArray );
 
-               $files_to_be_renamed = "";
+               // for rename function start
+               $from_str = $_POST["from_re"];
+               $to_str   = $_POST["to_re"];
+               $is_dry_run = (count($_POST['rename_dry_run']) > 0);
+
+               $dry_run_opt = "";
+               if ($is_dry_run)
+               {
+                  $dry_run_opt = "-n";
+               }
+               // for rename function end
+
                for ($i=0; $i<$numSelected; $i++)
                {
                   $tbdFile = $selectedArray[$i];
@@ -139,25 +150,12 @@
                   }
                   else if ($action == "RENAME")
                   {
-                     $files_to_be_renamed .= " " . basename($tbdFile);
+                     $file_dir = dirname($tbdFile);
+
+                     myExec( "cd $file_dir && rename -v 's/$from_str/$to_str/' \"$tbdFile\" $dry_run_opt ", $is_dry_run );
                   }
                }
 
-               if ($action == "RENAME")
-               {
-                   $from_str = $_POST["from_re"];
-                   $to_str = $_POST["to_re"];
-                   $file_dir = dirname($selectedArray[0]);
-
-                   $is_dry_run = (count($_POST['rename_dry_run']) > 0);
-                   $dry_run_opt = "";
-                   if ($is_dry_run)
-                   {
-                      $dry_run_opt = "-n";
-                   }
-
-                   myExec( "cd $file_dir && rename -v 's/$from_str/$to_str/' \"$files_to_be_renamed\" $dry_run_opt ", $is_dry_run );
-                }
                // if (isset($_SERVER["HTTP_REFERER"]))
                // {
                //    header("Location: " . $_SERVER["HTTP_REFERER"]);
