@@ -146,7 +146,7 @@
 
                   if ($action == "DELETE")
                   {
-                     myExec( "rm -fv \"$tbdFile\" ", false);
+                     myExec( "rm -fv \"$tbdFile\" ", true);
                   }
                   else if ($action == "RENAME")
                   {
