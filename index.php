@@ -113,7 +113,7 @@
 
          // if it's triggered by the "Delete Selected" button, perform
          // file deletion and return to the same page
-         // echo print_r($_POST) . "<br/>";
+         echo print_r($_POST) . "<br/>";
 
          if ($_SERVER['REQUEST_METHOD'] === 'POST')
          {
@@ -146,7 +146,9 @@
 
                   if ($action == "DELETE")
                   {
-                     myExec( "rm -fv \"$tbdFile\" ", true);
+                     $cmd = "rm -fv \"$tbdFile\" ";
+                     echo "debug: cmd = '" . $cmd . "'";
+                     myExec( $cmd, true);
                   }
                   else if ($action == "RENAME")
                   {
