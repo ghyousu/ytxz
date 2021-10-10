@@ -159,7 +159,9 @@
                   {
                      $file_dir = dirname($tbdFile);
 
-                     myExec( "cd $file_dir && rename -v 's/$from_str/$to_str/' \"$tbdFile\" $dry_run_opt ", $is_dry_run );
+                     $to_be_renamed = basename($tbdFile);
+
+                     myExec( "cd $file_dir && rename -v 's/$from_str/$to_str/' \"$to_be_renamed\" $dry_run_opt ", $is_dry_run );
                   }
                }
 
