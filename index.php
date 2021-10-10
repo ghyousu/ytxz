@@ -131,20 +131,20 @@
 
                echo "debug: 2";
                // for rename function start
-               // $from_str = $_POST["from_re"];
-               // $to_str   = $_POST["to_re"];
-               // $is_dry_run = (count($_POST['rename_dry_run']) > 0);
+               $from_str = $_POST['from_re'];
+               echo "debug: 3";
+               $to_str   = $_POST['to_re'];
+               echo "debug: 4";
+               $is_dry_run = (count($_POST['rename_dry_run']) > 0);
+               echo "debug: 5";
 
-               // echo "debug: 3";
-               // $dry_run_opt = "";
-               // if ($is_dry_run)
-               // {
-               // echo "debug: 4";
-               //    $dry_run_opt = "-n";
-               // }
+               $dry_run_opt = "";
+               if ($is_dry_run)
+               {
+                  $dry_run_opt = "-n";
+               }
                // for rename function end
 
-               echo "debug: 5";
                for ($i=0; $i<$numSelected; $i++)
                {
                echo "debug: 6";
