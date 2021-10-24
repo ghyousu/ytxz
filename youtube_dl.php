@@ -163,6 +163,8 @@
                $output_filename = $_POST['output_name'] . '_%(id)s.%(ext)s';
             }
 
+            $ext_dl_opt = '--external-downloader aria2c --external-downloader-args "-j 16 -x 16 -s 16 -k 1M" ';
+
             $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 youtube-dl ";
 
             ## for heroku app
@@ -174,7 +176,7 @@
             $qualityStr = getQualityFormatString($selectedQuality);
 
             $shellcmd = $YTD_EXE . ' -c ' . $qualityStr . ' -o "' .
-                        $outputDir . '/' . $output_filename . '" ' . $ytURL;
+                        $outputDir . '/' . $output_filename . '" ' . $ext_dl_opt . $ytURL;
 
             if ($selectedFileExt == "audio")
             {
