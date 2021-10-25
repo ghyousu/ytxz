@@ -163,7 +163,7 @@
                $output_filename = $_POST['output_name'] . '_%(id)s.%(ext)s';
             }
 
-            $ext_dl_opt = '--external-downloader aria2c --external-downloader-args "-j 16 -x 16 -s 16 -k 1M" ';
+            $ext_dl_opt = ' --external-downloader aria2c --external-downloader-args "-j 16 -x 16 -s 16 -k 1M" ';
 
             $YTD_EXE="umask 000 ; LANG=en_US.UTF-8 youtube-dl ";
 
