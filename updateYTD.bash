@@ -2,14 +2,18 @@
 
 set -e
 
-old_ver=$(python youtube-dl --version)
+old_ver=$(youtube-dl --version)
 
+md5sum youtube-dl
 rm -fv youtube-dl
 
-wget -c https://youtube-dl.org/downloads/latest/youtube-dl > /dev/null
+# wget -c https://youtube-dl.org/downloads/latest/youtube-dl > /dev/null
 
-new_ver=$(python youtube-dl --version)
+wget -c https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O youtube-dl
 
-git ci youtube-dl -m "updated youtube-dl from $old_ver to $new_ver"
+md5sum youtube-dl
 
-git push
+new_ver=$(youtube-dl --version)
+
+echo git ci youtube-dl -m "updated youtube-dl from $old_ver to $new_ver"
+echo git push
