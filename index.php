@@ -81,6 +81,8 @@
      <?php
          setlocale(LC_ALL,'C.UTF-8');
 
+         date_default_timezone_set('America/New_York');
+
          session_start();
 
          if ($_SERVER['PHP_SELF'] == '/mason/index.php' ||
