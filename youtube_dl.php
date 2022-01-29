@@ -129,6 +129,25 @@
             return $qualityStr;
          }
 
+         function getPlaylistTitle($pl_url)
+         {
+            $output = null;
+            $retval = null;
+            $shellcmd = 'LANG=en_US.UTF-8 python /app/youtube-dl ' .
+                  $pl_url . ' --playlist-end 1 -O "%(playlist_title)s"';
+
+            exec( $shellcmd . ' 2>&1', $output, $retval );
+
+            if ($output == null)
+            {
+               return "";
+            }
+            else
+            {
+               return $output;
+            }
+         }
+
          // if it's triggered by the "Download" button
          // echo print_r($_POST) . "<br/>";
          // echo print_r($_SERVER) . "<br/>";
@@ -142,6 +161,14 @@
             $selectedFileExt = $_POST['fileExt'];
             $selectedQuality = $_POST['video_quality'];
             $outputDir = dirname( $THIS_SCRIPT );
+
+            $is_playlist = false;
+            if (strpos($ytURL, 'playlist') !== false)
+            {
+               $is_playlist = true;
+               $pl_title = getPlaylistTitle($ytURL);
+               $outputDir = $outputDir . "/" . $pl_title;
+            }
 
 //            if (isset($_GET['ext'])) // ext overrides
 //            {
@@ -192,7 +219,7 @@
                die("Unkown file extension: $selectedFileExt");
             }
 
-            if (strpos($ytURL, 'playlist') !== false)
+            if ($is_playlist)
             {
             	$shellcmd = $shellcmd . ' --playlist-start ' . $_POST['plstart'] . ' --playlist-end ' . $_POST['plstop'];
             }
@@ -215,6 +242,7 @@
               exec($shellcmd . ' > /dev/null &');
               echo "Download started, check back again later <br/>";
             }
+
             /* download everything in the bg for all machines
             if ( get_current_user() != "ipj3ja1bmaxd" )
             {
@@ -230,6 +258,14 @@
                // go to parent dir after finish downloading
                header("Location: " . dirname($_SERVER["SCRIPT_NAME"]) );
             }
+
+            if ($is_playlist)
+            {
+               $output = null;
+               $retval = null;
+               exec("cp -v *.php " . $outputDir, $output, $retval);
+            }
+
             */
          }
      ?>
