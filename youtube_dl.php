@@ -141,7 +141,7 @@
                echo "cmd: '" . $shellcmd . "' <br/>";
             }
 
-            exec( $shellcmd . ' 2>&1', $output, $retval );
+            exec( $shellcmd . ' 2> /dev/null', $output, $retval );
 
             if ($debug)
             {
