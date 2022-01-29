@@ -145,7 +145,8 @@
 
             if ($debug)
             {
-               echo "output: '" . $output . "', retval = '" . $retval . "'<br/>";
+               print_r($output);
+               echo "', retval = '" . $retval . "'<br/>";
             }
 
             if ($output == null)
@@ -154,7 +155,8 @@
             }
             else
             {
-               return $output;
+               // the output is an array
+               return $output[0];
             }
          }
 
@@ -231,7 +233,9 @@
 
             if ($is_playlist)
             {
-            	$shellcmd = $shellcmd . ' --playlist-start ' . $_POST['plstart'] . ' --playlist-end ' . $_POST['plstop'];
+            	$shellcmd = $shellcmd . ' --playlist-start ' . $_POST['plstart'] .
+                           ' --playlist-end ' . $_POST['plstop'] .
+                           '; cp -v *php ' . $outputDir;
             }
 
             // die("myou: debug: shellcmd = '" . $shellcmd . "'<br/>");
@@ -267,13 +271,6 @@
 
                // go to parent dir after finish downloading
                header("Location: " . dirname($_SERVER["SCRIPT_NAME"]) );
-            }
-
-            if ($is_playlist)
-            {
-               $output = null;
-               $retval = null;
-               exec("cp -v *.php " . $outputDir, $output, $retval);
             }
 
             */
