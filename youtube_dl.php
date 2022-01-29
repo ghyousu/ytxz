@@ -129,14 +129,24 @@
             return $qualityStr;
          }
 
-         function getPlaylistTitle($pl_url)
+         function getPlaylistTitle($pl_url, $debug)
          {
             $output = null;
             $retval = null;
             $shellcmd = 'LANG=en_US.UTF-8 python /app/youtube-dl ' .
                   $pl_url . ' --playlist-end 1 -O "%(playlist_title)s"';
 
+            if ($debug)
+            {
+               echo "cmd: '" . $shellcmd . "' <br/>";
+            }
+
             exec( $shellcmd . ' 2>&1', $output, $retval );
+
+            if ($debug)
+            {
+               echo "output: '" . $output . "', retval = '" . $retval . "'<br/>";
+            }
 
             if ($output == null)
             {
@@ -166,7 +176,7 @@
             if (strpos($ytURL, 'playlist') !== false)
             {
                $is_playlist = true;
-               $pl_title = getPlaylistTitle($ytURL);
+               $pl_title = getPlaylistTitle($ytURL, $debug);
                $outputDir = $outputDir . "/" . $pl_title;
             }
 
