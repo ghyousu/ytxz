@@ -207,6 +207,8 @@
            // skip hidden files
            if ($file[0] == ".") continue;
 
+           if (str_ends_with($file, "tempdir")) continue;
+
            if ($file == $thisScriptBase) continue;
 
            // These are files used for heroku. don't display them
@@ -221,8 +223,7 @@
            else if ($file == "jplayer-2.9.2") continue;
            else if ($file == "4c9184f37cff01bcdc32dc486ec36961") continue;
            else if ($file == "5c29c2e513aadfe372fd0af7553b5a6c") continue;
-           else if ($file == "updateYTD.bash") continue;
-           else if ($file == "twit_dl.bash") continue;
+           else if (str_ends_with($file, "bash")) continue;
 
            if ($thisScriptWeb == '/index.php')
            {
