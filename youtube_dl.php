@@ -188,6 +188,9 @@
                   $pl_title = getPlaylistTitle($ytURL, $debug);
                   $outputDir = $outputDir . "/" . $pl_title;
                }
+
+               $mkdir_cmd = 'mkdir -pv ' . $outputDir . ' && cp -v *.php ' . $outputDir;
+               exec($mkdir_cmd . ' 2> /dev/null');
             }
 
 //            if (isset($_GET['ext'])) // ext overrides
