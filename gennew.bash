@@ -2,9 +2,12 @@
 
 ## create new random directory for one-time use
 
-new_hash=$(date +%s | md5sum | awk '{print $1}')
-
-new_dir=${new_hash}tempdir
+if [ "$1" != "" ]; then
+   new_dir=$1
+else
+   new_hash=$(date +%s | md5sum | awk '{print $1}')
+   new_dir=${new_hash}tempdir
+fi
 
 mkdir -p /app/$new_dir
 
