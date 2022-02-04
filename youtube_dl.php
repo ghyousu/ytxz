@@ -178,8 +178,16 @@
             if (strpos($ytURL, 'playlist') !== false)
             {
                $is_playlist = true;
-               $pl_title = getPlaylistTitle($ytURL, $debug);
-               $outputDir = $outputDir . "/" . $pl_title;
+
+               if ($_POST['output_name'] != "") // output filename overrides
+               {
+                  $outputDir = $outputDir . "/" . $_POST['output_name'];
+               }
+               else
+               {
+                  $pl_title = getPlaylistTitle($ytURL, $debug);
+                  $outputDir = $outputDir . "/" . $pl_title;
+               }
             }
 
 //            if (isset($_GET['ext'])) // ext overrides
@@ -197,9 +205,12 @@
                $debug = true;
             }
 
-            if ($_POST['output_name'] != "") // output filename overrides
+            if (!$is_playlist)
             {
-               $output_filename = $_POST['output_name'] . '_%(id)s.%(ext)s';
+               if ($_POST['output_name'] != "") // output filename overrides
+               {
+                  $output_filename = $_POST['output_name'] . '_%(id)s.%(ext)s';
+               }
             }
 
             // $ext_dl_opt = ' --external-downloader aria2c --external-downloader-args "-j 16 -x 16 -s 16 -k 1M" ';
