@@ -317,14 +317,14 @@
                echo " <td align='center'>\n";
                if ($retval[$i]["type"] != "dir")
                {
-                  echo "   <a href='$filename' download>Download</a>\n";
+                  echo "   <a href='" . rawurlencode($fileBasename) . "' download>Download</a>\n";
                }
                echo " </td>\n";
 
                echo ' <td align="right">' . human_filesize($retval[$i]["size"]) . "</td>\n";
 
                echo " <td>\n";
-               echo '   <a href="' . $filename . '">' . $fileBasename . "</a>\n";
+               echo '   <a href="' . rawurlencode($fileBasename) . '">' . $fileBasename . "</a>\n";
                echo " </td>\n";
 
                echo ' <td align="right">' . date('Y-m-d h:i', $retval[$i]["lastmod"]) . "</td>\n";
@@ -354,7 +354,7 @@
                   <?php echo human_filesize($TOTAL_SIZE) ?>
             </td>
          </tr>
-
+<!-- myou: hide these until it's working
          <tr>
             <td>From: </td>
             <td align="right">
@@ -375,6 +375,7 @@
                  <input type="checkbox" name="rename_dry_run[]" value="Dry Run" />
             </td>
          </tr>
+-->
          </form>
 
          <tr><td colspan="10"><hr></td></tr>
