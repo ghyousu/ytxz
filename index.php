@@ -85,6 +85,31 @@
 
          session_start();
 
+         // str_ends_with is only available starting php 8
+         function my_str_ends_with($input_str, $pattern)
+         {
+            $input_len   = strlen($input_str);
+            $pattern_len = strlen($pattern);
+
+            if ($pattern_len > $input_len)
+            {
+               return false;
+            }
+            else
+            {
+               $pos = $pattern_len * -1;
+
+               if (substr($input_str, $pos) == $pattern)
+               {
+                  return true;
+               }
+               else
+               {
+                  return false;
+               }
+            }
+         }
+
          if ($_SERVER['PHP_SELF'] == '/mason/index.php' ||
              $_SERVER['PHP_SELF'] == '/kidsMusic/index.php' ||
              $_SERVER['PHP_SELF'] == '/jplayer-2.9.2/index.php')
@@ -207,7 +232,7 @@
            // skip hidden files
            if ($file[0] == ".") continue;
 
-           if (str_ends_with($file, "tempdir")) continue;
+           if (my_str_ends_with($file, "tempdir")) continue;
 
            if ($file == $thisScriptBase) continue;
 
@@ -223,7 +248,7 @@
            else if ($file == "jplayer-2.9.2") continue;
            else if ($file == "4c9184f37cff01bcdc32dc486ec36961") continue;
            else if ($file == "5c29c2e513aadfe372fd0af7553b5a6c") continue;
-           else if (str_ends_with($file, "bash")) continue;
+           else if (my_str_ends_with($file, "bash")) continue;
 
            if ($thisScriptWeb == '/index.php')
            {
