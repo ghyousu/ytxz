@@ -202,6 +202,19 @@
   </head>
 
   <body>
+     <?php if (isset($_SESSION['user_name'])) : ?>
+        <table boarder='0'>
+        <tr>
+           <td>You are logged in as <?php echo $_SESSION['user_name']; ?> </td>
+           <td style='align: right'>
+              <a href="/logout.php" style="font-size: 1.5em">
+                 Log Out
+              </a>
+        </td>
+        </tr>
+        </table>
+     <?php endif; ?>
+
      <?php
         // var_dump( $_SERVER ); // debug
         // echo "Debug: " . print_r( $_SERVER ) . "<br/>";
