@@ -70,7 +70,7 @@ function fetchQueryResults($query)
 
 function authenticateUser($username, $pw)
 {
-   $query = "SELECT u.fname,u.lname,r.enum_id FROM " .
+   $query = "SELECT u.fname,u.lname,u.user_name,r.enum_id FROM " .
             getUsersTableName() . ' u, ' . getUserTypeEnumTableName() . ' r ' .
             " WHERE user_name = '$username' AND passwd = '" . sha1($pw) . "' AND " .
             'u.role_id = r.enum_id';
@@ -85,14 +85,16 @@ function authenticateUser($username, $pw)
    }
    else
    {
-      $row   = pg_fetch_row($result);
-      $fname = $row[0];
-      $lname = $row[1];
-      $role  = $row[2];
+      $row       = pg_fetch_row($result);
+      $fname     = $row[0];
+      $lname     = $row[1];
+      $user_name = $row[2];
+      $role      = $row[3];
 
       $_SESSION['user_role'] = $role;
-      $_SESSION['fname'] = $fname;
-      $_SESSION['lname'] = $lname;
+      $_SESSION['fname']     = $fname;
+      $_SESSION['lname']     = $lname;
+      $_SESSION['user_name'] = $user_name;
 
       if ($role == '')
       {
@@ -358,10 +360,10 @@ function showFavoritesTable($start_date_str, $stop_date_str)
    echo "<form action='/favorite.php' method='POST' enctype='multipart/form-data'>\n";
    echo "<table border=1>\n";
 
-   echo "<th></th>\n"; // for checkbox
-   echo "<th style='width: 60px'>Title</th>\n";
-   echo "<th style='width: 200px'>URL</th>\n";
-   echo "<th style='width: 600px'>Date/Time added</th>\n";
+   echo "<th style='width: 5%'></th>\n"; // for checkbox
+   echo "<th style='width: 5%'>Title</th>\n";
+   echo "<th style='width: 60%'>URL</th>\n";
+   echo "<th style='width: 10%'>Date/Time added</th>\n";
 
    $row_number = 1;
    while ( $entry = pg_fetch_row($fav_list) )
@@ -382,7 +384,7 @@ function showFavoritesTable($start_date_str, $stop_date_str)
 
       echo "\t\t<td style='text-align: center'>$title</td>\n";
       echo "\t\t<td style='text-align: center'>$url</td>\n";
-      echo "\t\t<td>$time_added</td>\n";
+      echo "\t\t<td style='text-align: center'>$time_added</td>\n";
 
       echo "\t</tr>\n";
 
