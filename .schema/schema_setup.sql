@@ -1,5 +1,6 @@
 ----------------------------------- ytxz schema ------------------------------
 DROP TABLE IF EXISTS ytxz.history        CASCADE;
+DROP TABLE IF EXISTS ytxz.favorite       CASCADE;
 DROP TABLE IF EXISTS ytxz.users          CASCADE;
 DROP TABLE IF EXISTS ytxz.user_type_enum CASCADE;
 DROP TABLE IF EXISTS ytxz.file_type_enum CASCADE;
