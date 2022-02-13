@@ -70,10 +70,12 @@ function fetchQueryResults($query)
 
 function authenticateUser($username, $pw)
 {
-   $query = "SELECT u.fname,u.lname,r.enum_id FROM " . getUsersTableName() .
-            " WHERE user_name = '$username' AND passwd = '" . sha1($pw) . "'";
+   $query = "SELECT u.fname,u.lname,r.enum_id FROM " .
+            getUsersTableName() . ' u, ' . getUserTypeEnumTableName() . ' r ' .
+            " WHERE user_name = '$username' AND passwd = '" . sha1($pw) . "' AND " .
+            'u.role_id = r.enum_id';
 
-   printDebug("query: '$query'");
+   printDebug("query: |$query|");
 
    $result = fetchQueryResults($query);
 
