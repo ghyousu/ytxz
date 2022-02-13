@@ -4,38 +4,34 @@
 <head>
   <title>Login</title>
    <?php
-      function login($username, $pw)
-      {
-         if ( $username == 'bk' && $pw == 'qwertasdfg63859' )
-         {
-            return true;
-         }
-         else
-         {
-            return false;
-         }
-      }
+      require_once("common.php");
 
       session_start();
 
       $thisScriptWeb   = $_SERVER["SCRIPT_NAME"];
-      $index_page      = '/index.php';
+      $main_page     = '/index.php';
+
+      // if ($_SESSION['role'] == 'teacher')
+      // {
+      //    $main_page = '/teacher_page.php';
+      // }
 
       // echo "debug: thisScriptWeb = $thisScriptWeb <br/>";
-      // echo "debug: index_page    = $index_page    <br/>";
+      // echo "debug: mai_page = $main_page    <br/>";
       // var_dump( $_SERVER );
 
       if (isset($_SESSION['LOGGED_IN']))
       {
-         header("location: $index_page");
+         header("location: $main_page");
       }
       else if (isset($_POST['username']) && isset($_POST['password']))
       {
-         if (login($_POST['username'], $_POST['password']))
+         if (authenticateUser($_POST['username'], $_POST['password']))
          {
-            $_SESSION['msg'] = '';
+            // $_SESSION['msg'] = '';
             $_SESSION['LOGGED_IN'] = true;
-            header("location: $index_page");
+
+            header("location: $main_page");
          }
          else
          {
