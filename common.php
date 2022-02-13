@@ -341,60 +341,46 @@ function displayBreakHistory($class)
    echo "</form>\n";
 } // end of displayBreakHistory
 
-// this function's only displayed for teachers
-function showNotesTable($start_date_str, $stop_date_str)
+function showFavoritesTable($start_date_str, $stop_date_str)
 {
-   if ($_SESSION['user_role'] == "student")
-   {
-      echo '<h1 align="center">\n';
-      echo '    You are not allowed to view this page\n';
-      echo '</h1>\n';
-      return ;
-   }
-
    $tz = 'America/New_York';
-   $query = 'SELECT note_id, class, ' .
-            "TO_CHAR(timezone('$tz', ts), 'mm/DD/YYYY HH12:MI:SS AM'), " .
-            'note_body FROM ' . getNotesTableName() .
-            " WHERE DATE(ts AT TIME ZONE '$tz')::date >= '$start_date_str' " .
-            " AND   DATE(ts AT TIME ZONE '$tz')::date <= '$stop_date_str'";
+   $query = 'SELECT f.fid,f.name,f.url,f.folder_name,' .
+            "TO_CHAR(timezone('$tz', f.time_added), 'mm/DD/YYYY HH12:MI:SS AM') " .
+            'FROM ' . getFavoriteTableName() . ' f, ' .
+            getUsersTableName() . ' u ' .
+            " WHERE f.uid = u.uid AND u.user_name = '" . $_SESSION['user_name'] . "'";
 
-   if (isset($_SESSION[getNotesClassFilterSessionKey()]) &&
-         $_SESSION[getNotesClassFilterSessionKey()] != 'All')
-   {
-      $query = $query . " AND class = '" . $_SESSION[getNotesClassFilterSessionKey()] . "'";
-   }
-
-   $notes = fetchQueryResults($query);
+   $fav_list = fetchQueryResults($query);
 
    echo '<div align="center">';
-   echo "<form action='/notes.php' method='POST' enctype='multipart/form-data'>\n";
+   echo "<form action='/favorite.php' method='POST' enctype='multipart/form-data'>\n";
    echo "<table border=1>\n";
 
-   echo "<th></th>\n";
-   echo "<th style='width: 60px'>class</th>\n";
-   echo "<th style='width: 200px'>Time</th>\n";
-   echo "<th style='width: 600px'>Note</th>\n";
+   echo "<th></th>\n"; // for checkbox
+   echo "<th style='width: 60px'>Title</th>\n";
+   echo "<th style='width: 200px'>URL</th>\n";
+   echo "<th style='width: 600px'>Date/Time added</th>\n";
 
    $row_number = 1;
-   while ( $entry = pg_fetch_row($notes) )
+   while ( $entry = pg_fetch_row($fav_list) )
    {
-      $note_id   = $entry[0];
-      $class     = $entry[1];
-      $time      = $entry[2];
-      $note_body = $entry[3];
+      $fid        = $entry[0];
+      $title      = $entry[1];
+      $url        = $entry[2];
+      $dir_name   = $entry[3];
+      $time_added = $entry[4];
 
       echo "\t<tr>\n";
 
       echo "\t\t<td align='center'>\n" .
            $row_number .
            "\t\t\t<input  style='width: 20px; height: 20px' type='checkbox' " .
-           "name='note_checkbox[]' value='" .  $note_id . "'>\n" .
+           "name='fav_checkbox[]' value='" .  $fid . "'>\n" .
            "\t\t</td>\n";
 
-      echo "\t\t<td style='text-align: center'>$class</td>\n";
-      echo "\t\t<td style='text-align: center'>$time</td>\n";
-      echo "\t\t<td>$note_body</td>\n";
+      echo "\t\t<td style='text-align: center'>$title</td>\n";
+      echo "\t\t<td style='text-align: center'>$url</td>\n";
+      echo "\t\t<td>$time_added</td>\n";
 
       echo "\t</tr>\n";
 
@@ -413,7 +399,7 @@ function showNotesTable($start_date_str, $stop_date_str)
    echo "</table>\n";
    echo "</form>\n";
    echo "</div>\n";
-} // end of showNotesTable
+} // end of showFavoritesTable
 
 function showEnumDropDown($db_enum_name, $label, $html_name, $html_id)
 {
