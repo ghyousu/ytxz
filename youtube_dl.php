@@ -175,7 +175,7 @@
             $outputDir = dirname( $THIS_SCRIPT );
 
             $is_playlist = false;
-            if (strpos($ytURL, 'playlist') !== false)
+            if (strpos($ytURL, 'playlist') != false)
             {
                $is_playlist = true;
 
@@ -248,8 +248,7 @@
             if ($is_playlist)
             {
             	$shellcmd = $shellcmd . ' --playlist-start ' . $_POST['plstart'] .
-                           ' --playlist-end ' . $_POST['plstop'] .
-                           '; cp -v *php ' . $outputDir;
+                           ' --playlist-end ' . $_POST['plstop'] . ' &';
             }
 
             // die("myou: debug: shellcmd = '" . $shellcmd . "'<br/>");
