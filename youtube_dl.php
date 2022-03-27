@@ -141,9 +141,9 @@
                echo "cmd: '" . $shellcmd . "' <br/>";
             }
 
-            echo "before getPlaylistTitle = " . time() . "<br/>";
+            // echo "before getPlaylistTitle = " . time() . "<br/>";
             exec( $shellcmd . ' 2> /dev/null', $output, $retval );
-            echo "after getPlaylistTitle = " . time() . "<br/>";
+            // echo "after getPlaylistTitle = " . time() . "<br/>";
 
             if ($debug)
             {
@@ -192,9 +192,9 @@
                }
 
                $mkdir_cmd = 'mkdir -pv ' . $outputDir . ' && cp -v *.php ' . $outputDir;
-               echo "before mkdir = " . time() . "<br/>";
+               // echo "before mkdir = " . time() . "<br/>";
                exec($mkdir_cmd . ' 2> /dev/null');
-               echo "after mkdir = " . time() . "<br/>";
+               // echo "after mkdir = " . time() . "<br/>";
             }
 
 //            if (isset($_GET['ext'])) // ext overrides
@@ -270,9 +270,9 @@
             }
             else
             {
-              echo "before ytd = " . time() . "<br/>";
+              // echo "before ytd = " . time() . "<br/>";
               exec($shellcmd . ' > /dev/null &');
-              echo "after ytd = " . time() . "<br/>";
+              // echo "after ytd = " . time() . "<br/>";
               echo "Download started, check back again later <br/>";
             }
 
