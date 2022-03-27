@@ -141,7 +141,9 @@
                echo "cmd: '" . $shellcmd . "' <br/>";
             }
 
+            echo "before getPlaylistTitle = " . time() . "<br/>";
             exec( $shellcmd . ' 2> /dev/null', $output, $retval );
+            echo "after getPlaylistTitle = " . time() . "<br/>";
 
             if ($debug)
             {
@@ -190,7 +192,9 @@
                }
 
                $mkdir_cmd = 'mkdir -pv ' . $outputDir . ' && cp -v *.php ' . $outputDir;
+               echo "before mkdir = " . time() . "<br/>";
                exec($mkdir_cmd . ' 2> /dev/null');
+               echo "after mkdir = " . time() . "<br/>";
             }
 
 //            if (isset($_GET['ext'])) // ext overrides
@@ -266,26 +270,27 @@
             }
             else
             {
+              echo "before ytd = " . time() . "<br/>";
               exec($shellcmd . ' > /dev/null &');
+              echo "after ytd = " . time() . "<br/>";
               echo "Download started, check back again later <br/>";
             }
 
             /* download everything in the bg for all machines
-            if ( get_current_user() != "ipj3ja1bmaxd" )
-            {
-               // for the slow machines
-               exec( $shellcmd . ' > /dev/null &');
-               echo "Download started, check back again later <br/>";
-            }
-            else
-            {
-               // for the fast machines
-               exec( $shellcmd );
+               if ( get_current_user() != "ipj3ja1bmaxd" )
+               {
+                  // for the slow machines
+                  exec( $shellcmd . ' > /dev/null &');
+                  echo "Download started, check back again later <br/>";
+               }
+               else
+               {
+                  // for the fast machines
+                  exec( $shellcmd );
 
-               // go to parent dir after finish downloading
-               header("Location: " . dirname($_SERVER["SCRIPT_NAME"]) );
-            }
-
+                  // go to parent dir after finish downloading
+                  header("Location: " . dirname($_SERVER["SCRIPT_NAME"]) );
+               }
             */
          }
      ?>
