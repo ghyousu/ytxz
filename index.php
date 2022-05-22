@@ -251,6 +251,8 @@
 
            // These are files used for heroku. don't display them
            if ($file == "readme") continue;
+           else if ($file == "pizwbk_boot.log") continue;
+           else if ($file == "pizwbk_publicIp") continue;
            else if ($file == "vendor") continue;
            else if ($file == "Procfile") continue;
            else if ($file == "login.php") continue;
