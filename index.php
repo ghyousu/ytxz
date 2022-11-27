@@ -251,15 +251,14 @@
 
            // These are files used for heroku. don't display them
            if ($file == "readme") continue;
-           else if ($file == "pizwbk_boot.log") continue;
-           else if ($file == "pizwbk_publicIp") continue;
-           else if ($file == "vendor") continue;
-           else if ($file == "Procfile") continue;
+           else if ($file == "Dockerfile.temp") continue;
+           else if ($file == "common.php") continue;
+           else if ($file == "favorite.php") continue;
+           else if ($file == "logout.php") continue;
            else if ($file == "login.php") continue;
            else if ($file == "web_shell.php") continue;
            else if ($file == "mason") continue;
            else if ($file == "youtube-dl") continue;
-           else if ($file == "composer.json") continue;
            else if ($file == "jplayer-2.9.2") continue;
            else if ($file == "4c9184f37cff01bcdc32dc486ec36961") continue;
            else if ($file == "5c29c2e513aadfe372fd0af7553b5a6c") continue;
