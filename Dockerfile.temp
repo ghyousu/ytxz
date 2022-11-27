@@ -11,15 +11,18 @@ FROM alpine:3.12
 RUN apk update && \
     apk add --no-cache \
        apache2 \
-       ffmpeg \
        php7-apache2 \
+       php7-fileinfo \
+       php7-session \
+       ffmpeg \
        python3 \
        py-pip \
        && \
-    rm -rfv /var/cache/apk/* && \
-    pip3 install --no-cache-dir --no-cache youtube_dl
+     rm -rfv /var/cache/apk/* && \
+     pip3 install --no-cache-dir --no-cache youtube_dl
 
-RUN echo '<?php phpinfo(); ?>' > /var/www/localhost/htdocs/index.php
+## use local volume for the repo
+# RUN rm -fr /var/www/localhost/htdocs && git clone -q https://github.com/ghyousu/ytxz.git /var/www/localhost/htdocs
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
@@ -29,7 +32,5 @@ WORKDIR /var/www/localhost/htdocs
 
 EXPOSE 80
 
-CMD [ "/etc/init.d/httpd",  "configtest" ]
-
-# CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
+CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
 
