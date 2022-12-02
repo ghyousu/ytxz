@@ -133,7 +133,7 @@
          {
             $output = null;
             $retval = null;
-            $shellcmd = 'LANG=en_US.UTF-8 python /app/youtube-dl ' .
+            $shellcmd = 'LANG=en_US.UTF-8 python yt-dlp  ' .
                   $pl_url . ' --playlist-end 1 -O "%(playlist_title)s"';
 
             if ($debug)
