@@ -170,7 +170,7 @@
          if ( isset($_POST['submit']) )
          {
             $debug = $_POST['debug'];
-            $output_filename = '%(title)s_%(id)s.%(ext)s';
+            $output_filename = '%(title).200s_%(id)s.%(ext)s';
             $ytURL           = $_POST['yturl'];
             $selectedFileExt = $_POST['fileExt'];
             $selectedQuality = $_POST['video_quality'];
