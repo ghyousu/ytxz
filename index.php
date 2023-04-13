@@ -122,6 +122,41 @@
             header("location: /login.php");
          }
 
+         function playSelectedFiles($selectedArray, $_SERVER_VAR)
+         {
+            $documentRoot = $_SERVER_VAR["DOCUMENT_ROOT"];
+            $webDirName   = dirname($_SERVER_VAR["SCRIPT_NAME"]);
+
+            $output_file = ".temp_playlist.html";
+            $fp = fopen($output_file, 'w');
+
+            // echo "debug: doc_root = $documentRoot<br/>";
+
+            $playlist_head = file_get_contents($documentRoot . '/jplayer-2.9.2/myou_playlist.head');
+            $playlist_tail = file_get_contents($documentRoot . '/jplayer-2.9.2/myou_playlist.tail');
+            if (false == $playlist_head || false == $playlist_tail)
+            {
+               die("Unable to generate playlist, contact the developer");
+            }
+
+            fwrite($fp, $playlist_head);
+            for ($i=0; $i<count( $selectedArray ); $i++)
+            {
+               $selectedFile = $selectedArray[$i];
+
+               $file = basename($selectedFile);
+
+               $playlist_item = '   { title: "' . $file . '", m4v: "' . $webDirName . '/' . $file . '" },' . "\n";
+
+               fwrite($fp, $playlist_item);
+            }
+            fwrite($fp, $playlist_tail);
+
+            fclose($fp);
+
+            header("location: $webDirName/$output_file");
+         }
+
          function myExec($cmd, $is_debug)
          {
              $output = "NA_OUTPUT";
@@ -144,8 +179,16 @@
 
          if ($_SERVER['REQUEST_METHOD'] === 'POST')
          {
-            $action = "DELETE";
-            if (isset($_POST['rename_selected_files']))
+            $action = "";
+            if (isset($_POST['deleteSelected']))
+            {
+               $action = "DELETE_SELECTED";
+            }
+            else if (isset($_POST['playSelected']))
+            {
+               $action = "PLAY_SELECTED";
+            }
+            else if (isset($_POST['rename_selected_files']))
             {
                $action = "RENAME";
             }
@@ -172,23 +215,30 @@
                }
                // for rename function end
 
-               for ($i=0; $i<$numSelected; $i++)
+               if ($action == "PLAY_SELECTED")
                {
-                  $tbdFile = $selectedArray[$i];
-
-                  if ($action == "DELETE")
+                  playSelectedFiles($selectedArray, $_SERVER);
+               }
+               else
+               {
+                  for ($i=0; $i<$numSelected; $i++)
                   {
-                     $cmd = "rm -fv \"$tbdFile\" ";
-                     // echo "debug: cmd = '" . $cmd . "'";
-                     myExec( $cmd, false);
-                  }
-                  else if ($action == "RENAME")
-                  {
-                     $file_dir = dirname($tbdFile);
+                     $selectedFile = $selectedArray[$i];
 
-                     $to_be_renamed = basename($tbdFile);
+                     if ($action == "DELETE_SELECTED")
+                     {
+                        $cmd = "rm -fv \"$selectedFile\" ";
+                        // echo "debug: cmd = '" . $cmd . "'";
+                        myExec( $cmd, false);
+                     }
+                     else if ($action == "RENAME")
+                     {
+                        $file_dir = dirname($selectedFile);
 
-                     myExec( "cd $file_dir && rename -v 's/$from_str/$to_str/' \"$to_be_renamed\" $dry_run_opt ", $is_dry_run );
+                        $to_be_renamed = basename($selectedFile);
+
+                        myExec( "cd $file_dir && rename -v 's/$from_str/$to_str/' \"$to_be_renamed\" $dry_run_opt ", $is_dry_run );
+                     }
                   }
                }
 
@@ -306,7 +356,7 @@
       <table>
          <tr>
             <th valign="top"><img src="/icons/blank.gif" alt="[ICO]"></th>
-            <th><a href="?C=D;O=A">Delete File</a></th>
+            <th><a href="?C=D;O=A">Download File</a></th>
             <th><a href="?C=S;O=A">Size</a></th>
             <th><a href="?C=N;O=A">Name</a></th>
             <th><a href="?C=M;O=A">Last modified</a></th>
@@ -360,7 +410,7 @@
                }
                echo " </td>\n";
 
-               echo ' <td align="right">' . human_filesize($retval[$i]["size"]) . "</td>\n";
+               echo ' <td align="center">' . human_filesize($retval[$i]["size"]) . "</td>\n";
 
                echo " <td>\n";
                echo '   <a href="' . rawurlencode($fileBasename) . '">' . $fileBasename . "</a>\n";
@@ -376,20 +426,19 @@
 
          <tr>
             <td align="left" colspan="2">
-                  <input type="submit" name="submit" Value="Delete Selected"/>
+                  <input type="submit" name="deleteSelected" Value="Delete Selected"/>
+            </td>
+            <td align="left">
+                  <input type="submit" name="playSelected" Value="Play Selected"/>
             </td>
             <td align="left">
                   <input type="submit" name="selectAll" Value="Select All"
                      onclick='selectAllClicked(event)'/>
-            </td>
-            <td align="left">
                   <input type="submit" name="unselectAll" Value="UnSelect All"
                      onclick='unselectAllClicked(event)'/>
             </td>
-            <td align="right">
+            <td align="left">
                   Total:
-            </td>
-            <td align="right">
                   <?php echo human_filesize($TOTAL_SIZE) ?>
             </td>
          </tr>
