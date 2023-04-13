@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<!-- Website Design By: www.happyworm.com -->
+<title>Demo : jPlayer as a video playlist player</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="/jplayer-2.9.2/dist/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/jplayer-2.9.2/lib/jquery.min.js"></script>
+<script type="text/javascript" src="/jplayer-2.9.2/dist/jplayer/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="/jplayer-2.9.2/dist/add-on/jplayer.playlist.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(){
+      new jPlayerPlaylist({
+          jPlayer: "#jquery_jplayer_1",
+          cssSelectorAncestor: "#jp_container_1"
+},
+[
